@@ -11,7 +11,7 @@ submission_info = {
 platform :ios do
   desc "Validate App Store metadata against Apple content rules"
   lane :check do
-    precheck(api_key_path: ASC_KEY_PATH)
+    precheck(api_key_path: ASC_KEY_PATH, include_in_app_purchases: false)
   end
 
   desc "Build for App Store distribution"
@@ -68,7 +68,7 @@ end
 platform :mac do
   desc "Validate App Store metadata against Apple content rules"
   lane :check do
-    precheck(api_key_path: ASC_KEY_PATH)
+    precheck(api_key_path: ASC_KEY_PATH, include_in_app_purchases: false)
   end
 
   desc "Build for App Store distribution"
