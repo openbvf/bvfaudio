@@ -1,0 +1,1 @@
+Your audio, encrypted while you record, encrypted while you play back. No accounts, no telemetry, no lock-in. Decrypted only inside the app, never in Spotlight, backups, or other software. Open-source.

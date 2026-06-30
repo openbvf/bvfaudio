@@ -1,6 +1,15 @@
 {
-  "originHash" : "8a38056b721f1e0137fb2bc9c1250007fdaaa2b527692c744f12b56096d5112a",
+  "originHash" : "e27c85f37e36ac0dd4e38910a8b5de0545fd1bc38afabe5989547b85c47f35bd",
   "pins" : [
+    {
+      "identity" : "bvfappkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openbvf/BvfAppKit",
+      "state" : {
+        "revision" : "1e318955b469cb9e58a8d9daea3270d7707ec718",
+        "version" : "0.1.0"
+      }
+    },
     {
       "identity" : "bvfkit",
       "kind" : "remoteSourceControl",

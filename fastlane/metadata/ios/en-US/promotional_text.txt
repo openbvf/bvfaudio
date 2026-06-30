@@ -1,0 +1,1 @@
+Capture audio from iPhone or iPad. Encrypted to a key only your Mac has. iOS can record, never play back. No accounts, no telemetry.
