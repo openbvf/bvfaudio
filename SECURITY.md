@@ -29,6 +29,10 @@ If you choose to transcribe a recording, the transcript is held in memory during
 
 The mic is "warmed" the moment you open the record screen, before you tap record. This eliminates the cold-start delay on Bluetooth headsets (which negotiate SCO on first use) and ensures the first sample is captured the instant you start. Consequence: the system mic-in-use indicator (the orange dot on iOS, the lock-screen indicator on macOS) lights up while the record screen is visible even when you aren't actively recording. Backing out of the record screen tears the engine down and releases the mic.
 
+### Audio import
+
+BvfAudio can import external audio files, converting them to encrypted recordings. **The original source files are left in place.** BvfAudio does not delete, move, or sanitize them. If the source contains audio you don't want sitting on disk in plaintext, delete it yourself.
+
 ### Fake recordings via iCloud
 
 If you've enabled iCloud sync and your iCloud account is compromised, an adversary can write `.bvf` files into your audio folder. BvfAudio will sync them down and present them as recordings. There is no per-file signature today that lets you distinguish your own writes from injected ones; the cryptographic guarantee is confidentiality of contents, not authenticity of authorship. Mitigation: protect your iCloud account.
