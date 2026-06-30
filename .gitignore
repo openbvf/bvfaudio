@@ -1,0 +1,60 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode user-specific
+xcuserdata/
+*.xcuserstate
+*.xcuserdatad/
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode build output
+build/
+DerivedData/
+*.xcarchive
+*.ipa
+*.pkg
+*.app
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# CocoaPods (not used, but guard against accidents)
+Pods/
+
+# Carthage (not used, but guard against accidents)
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+fastlane/.env
+fastlane/metadata/**/review_information/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Secrets — never commit
+*.p12
+*.p8
+*.mobileprovision
+*.provisionprofile
+*.cer
+AuthKey_*.p8
+
+# Logs
+*.log

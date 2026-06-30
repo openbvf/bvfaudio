@@ -1,0 +1,24 @@
+{
+  "originHash" : "8a38056b721f1e0137fb2bc9c1250007fdaaa2b527692c744f12b56096d5112a",
+  "pins" : [
+    {
+      "identity" : "bvfkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/openbvf/BvfKit.git",
+      "state" : {
+        "revision" : "9d66882d78e651de435219e0729abbf184d528ee",
+        "version" : "0.1.3"
+      }
+    },
+    {
+      "identity" : "swift-sodium",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jedisct1/swift-sodium.git",
+      "state" : {
+        "revision" : "e7e799cd1eaa4d0f6d3eab56832e7f4b377f4a4f",
+        "version" : "0.10.0"
+      }
+    }
+  ],
+  "version" : 3
+}
