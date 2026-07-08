@@ -1,12 +1,12 @@
-<img src="bvfaudio-macos.svg" alt="" width="128" align="right">
-
 # BvfAudio
+
+<img src="bvfaudio-macos.svg" alt="" width="128" align="right">
 
 BvfAudio is a private app to record and play back audio on macOS. You can also record from iPhone or iPad. Audio is encrypted as it's captured and decrypted only inside the app where you play it back, so there's never a readable copy on disk for Spotlight, backups, other software, or people using your computer to find.
 
 iOS is record-only by design. An iPhone or iPad can record new audio but can never play it back, because the private key isn't on iOS at all. If your phone is taken, nothing on it is playable.
 
-*Screenshots are on the App Store listing (coming with release).*
+Screenshots are on the [App Store listing](https://apps.apple.com/us/app/bvfaudio/id6758461472).
 
 ## Features
 
@@ -21,8 +21,10 @@ iOS is record-only by design. An iPhone or iPad can record new audio but can nev
 
 ## Install
 
-- **macOS**: App Store (in progress), or [build from source](BUILDING.md). Requires macOS 26 or later.
-- **iOS**: App Store (in progress). Requires iOS 18 or later.
+<a href="https://apps.apple.com/us/app/bvfaudio/id6758461472?itsct=apps_box_badge&amp;itscg=30200"><img alt="Download on the App Store" src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?releaseDate=1783468800" height="50"></a>
+
+- **macOS**: Requires macOS 26 or later. Or [build from source](BUILDING.md).
+- **iOS**: Requires iOS 18 or later.
 
 ## First run
 
