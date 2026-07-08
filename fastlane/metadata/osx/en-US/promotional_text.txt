@@ -1,0 +1,1 @@
+Audio encrypted as you record, decrypted only in memory on playback. No temp files, no accounts, no lock-in. Never in Spotlight, backups, or other software. Open-source.

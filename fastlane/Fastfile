@@ -1,0 +1,126 @@
+default_platform :ios
+
+ASC_KEY_PATH = "/Users/code/.appstoreconnect/keys/asc_key.json"
+
+submission_info = {
+  add_id_info_uses_idfa: false,
+  content_rights_contains_third_party_content: false,
+  content_rights_has_rights: true
+}
+
+platform :ios do
+  desc "Validate App Store metadata against Apple content rules"
+  lane :check do
+    precheck(api_key_path: ASC_KEY_PATH, include_in_app_purchases: false)
+  end
+
+  desc "Build for App Store distribution"
+  lane :build do
+    build_app(scheme: "BvfAudio-iOS", export_method: "app-store")
+  end
+
+  desc "Build and upload a new build to TestFlight"
+  lane :beta do
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        api_key_path: ASC_KEY_PATH,
+        version: "3.0",
+        app_identifier: "io.bvf.baudio"
+      ) + 1,
+      xcodeproj: "BvfAudio.xcodeproj"
+    )
+    build_app(scheme: "BvfAudio-iOS", export_method: "app-store")
+    upload_to_testflight(api_key_path: ASC_KEY_PATH)
+  end
+
+  desc "Push App Store metadata text without submitting"
+  lane :push_metadata do
+    upload_to_app_store(
+      api_key_path: ASC_KEY_PATH,
+      app_version: "3.0",
+      metadata_path: "fastlane/metadata/ios",
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      submit_for_review: false,
+      force: true,
+      precheck_include_in_app_purchases: false
+    )
+  end
+
+  desc "Submit the latest TestFlight build to App Store review"
+  lane :submit do
+    upload_to_app_store(
+      api_key_path: ASC_KEY_PATH,
+      app_version: "3.0",
+      metadata_path: "fastlane/metadata/ios",
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      submission_information: submission_info
+    )
+  end
+end
+
+platform :mac do
+  desc "Validate App Store metadata against Apple content rules"
+  lane :check do
+    precheck(api_key_path: ASC_KEY_PATH, include_in_app_purchases: false)
+  end
+
+  desc "Build for App Store distribution"
+  lane :build do
+    build_app(scheme: "BvfAudio", export_method: "app-store")
+  end
+
+  desc "Build and upload a new build to TestFlight"
+  lane :beta do
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        api_key_path: ASC_KEY_PATH,
+        version: "3.0",
+        app_identifier: "io.bvf.baudio",
+        platform: "osx"
+      ) + 1,
+      xcodeproj: "BvfAudio.xcodeproj"
+    )
+    build_app(scheme: "BvfAudio", export_method: "app-store")
+    upload_to_testflight(api_key_path: ASC_KEY_PATH, app_platform: "osx")
+  end
+
+  desc "Push App Store metadata text without submitting"
+  lane :push_metadata do
+    upload_to_app_store(
+      api_key_path: ASC_KEY_PATH,
+      app_version: "3.0",
+      metadata_path: "fastlane/metadata/osx",
+      platform: "osx",
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      submit_for_review: false,
+      force: true,
+      precheck_include_in_app_purchases: false
+    )
+  end
+
+  desc "Submit the latest TestFlight build to App Store review"
+  lane :submit do
+    upload_to_app_store(
+      api_key_path: ASC_KEY_PATH,
+      app_version: "3.0",
+      metadata_path: "fastlane/metadata/osx",
+      platform: "osx",
+      skip_binary_upload: true,
+      skip_metadata: false,
+      skip_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      submission_information: submission_info
+    )
+  end
+end
