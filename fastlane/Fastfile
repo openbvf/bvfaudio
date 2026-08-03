@@ -16,28 +16,30 @@ platform :ios do
 
   desc "Build for App Store distribution"
   lane :build do
-    build_app(scheme: "BvfAudio-iOS", export_method: "app-store")
+    build_app(scheme: "BvfAudio-iOS", export_method: "app-store", xcargs: "-allowProvisioningUpdates")
   end
 
   desc "Build and upload a new build to TestFlight"
   lane :beta do
+    version = get_version_number(xcodeproj: "BvfAudio.xcodeproj", target: "BvfAudio-iOS")
     increment_build_number(
       build_number: latest_testflight_build_number(
         api_key_path: ASC_KEY_PATH,
-        version: "3.0",
+        version: version,
         app_identifier: "io.bvf.baudio"
       ) + 1,
       xcodeproj: "BvfAudio.xcodeproj"
     )
-    build_app(scheme: "BvfAudio-iOS", export_method: "app-store")
+    build_app(scheme: "BvfAudio-iOS", export_method: "app-store", xcargs: "-allowProvisioningUpdates")
     upload_to_testflight(api_key_path: ASC_KEY_PATH)
   end
 
   desc "Push App Store metadata text without submitting"
   lane :push_metadata do
+    version = get_version_number(xcodeproj: "BvfAudio.xcodeproj", target: "BvfAudio-iOS")
     upload_to_app_store(
       api_key_path: ASC_KEY_PATH,
-      app_version: "3.0",
+      app_version: version,
       metadata_path: "fastlane/metadata/ios",
       skip_binary_upload: true,
       skip_screenshots: true,
@@ -49,9 +51,10 @@ platform :ios do
 
   desc "Submit the latest TestFlight build to App Store review"
   lane :submit do
+    version = get_version_number(xcodeproj: "BvfAudio.xcodeproj", target: "BvfAudio-iOS")
     upload_to_app_store(
       api_key_path: ASC_KEY_PATH,
-      app_version: "3.0",
+      app_version: version,
       metadata_path: "fastlane/metadata/ios",
       skip_binary_upload: true,
       skip_metadata: false,
@@ -73,29 +76,35 @@ platform :mac do
 
   desc "Build for App Store distribution"
   lane :build do
-    build_app(scheme: "BvfAudio", export_method: "app-store")
+    build_app(scheme: "BvfAudio", export_method: "app-store", xcargs: "-allowProvisioningUpdates")
   end
 
   desc "Build and upload a new build to TestFlight"
   lane :beta do
+    # macOS requires the build number to increase monotonically across ALL
+    # version trains, so do NOT scope to the marketing version here (unlike iOS).
+    # The `4` floor covers a prior App Store build that has aged off TestFlight
+    # and is therefore invisible to latest_testflight_build_number; once uploads
+    # exceed it the TestFlight value dominates and the floor is moot.
+    latest = latest_testflight_build_number(
+      api_key_path: ASC_KEY_PATH,
+      app_identifier: "io.bvf.baudio",
+      platform: "osx"
+    )
     increment_build_number(
-      build_number: latest_testflight_build_number(
-        api_key_path: ASC_KEY_PATH,
-        version: "3.0",
-        app_identifier: "io.bvf.baudio",
-        platform: "osx"
-      ) + 1,
+      build_number: [latest, 4].max + 1,
       xcodeproj: "BvfAudio.xcodeproj"
     )
-    build_app(scheme: "BvfAudio", export_method: "app-store")
+    build_app(scheme: "BvfAudio", export_method: "app-store", xcargs: "-allowProvisioningUpdates")
     upload_to_testflight(api_key_path: ASC_KEY_PATH, app_platform: "osx")
   end
 
   desc "Push App Store metadata text without submitting"
   lane :push_metadata do
+    version = get_version_number(xcodeproj: "BvfAudio.xcodeproj", target: "BvfAudio")
     upload_to_app_store(
       api_key_path: ASC_KEY_PATH,
-      app_version: "3.0",
+      app_version: version,
       metadata_path: "fastlane/metadata/osx",
       platform: "osx",
       skip_binary_upload: true,
@@ -108,9 +117,10 @@ platform :mac do
 
   desc "Submit the latest TestFlight build to App Store review"
   lane :submit do
+    version = get_version_number(xcodeproj: "BvfAudio.xcodeproj", target: "BvfAudio")
     upload_to_app_store(
       api_key_path: ASC_KEY_PATH,
-      app_version: "3.0",
+      app_version: version,
       metadata_path: "fastlane/metadata/osx",
       platform: "osx",
       skip_binary_upload: true,
