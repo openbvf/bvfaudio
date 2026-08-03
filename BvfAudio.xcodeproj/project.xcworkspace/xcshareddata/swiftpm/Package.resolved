@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openbvf/BvfAppKit",
       "state" : {
-        "revision" : "e15e54ae542ffb046e26fd7f20696f8cc341e471",
-        "version" : "0.1.3"
+        "revision" : "f29906814cb3e1b2d5cfa906686e2808f1ea69b0",
+        "version" : "0.2.0"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/openbvf/BvfKit.git",
       "state" : {
-        "revision" : "9d66882d78e651de435219e0729abbf184d528ee",
-        "version" : "0.1.3"
+        "revision" : "db7e07b19fba57e461e19788ed6de34a569078e2",
+        "version" : "0.1.4"
       }
     },
     {
