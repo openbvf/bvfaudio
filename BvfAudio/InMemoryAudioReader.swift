@@ -3,7 +3,7 @@ import AudioToolbox
 
 /// Serves a fully in-memory audio `Data` buffer to Core Audio's file APIs via
 /// `AudioFileOpenWithCallbacks`, so an encrypted recording can be demuxed/decoded without
-/// ever writing plaintext to disk. Shared by transcription and playback — the only
+/// ever writing plaintext to disk. Shared by transcription and playback. The only
 /// in-process consumer of the decrypted container is Core Audio, and it receives bytes
 /// through these callbacks (never a file path), so it has no handle to spool to.
 nonisolated final class InMemoryAudioReader {

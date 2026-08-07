@@ -6,7 +6,7 @@ import AudioToolbox
 /// handed to a convenience player. The encrypted-then-decrypted AAC buffer is demuxed and
 /// decoded to PCM in memory via `ExtAudioFile` over `InMemoryAudioReader` callbacks, then
 /// scheduled on an `AVAudioPlayerNode`. The only framework that touches the container is
-/// Core Audio's decoder, fed through our read callback — it never receives a file path or a
+/// Core Audio's decoder, fed through our read callback: it never receives a file path or a
 /// whole `Data` it could spool, so there is no tier-1 write surface (unlike `AVAudioPlayer(data:)`).
 ///
 /// The whole file is decoded to PCM up front (frame-accurate seek, exact duration, and no
@@ -204,7 +204,7 @@ final class InMemoryAudioPlayer {
         let sampleRate = sourceFormat.mSampleRate > 0 ? sourceFormat.mSampleRate : 44100
         let channels = max(1, sourceFormat.mChannelsPerFrame)
 
-        // Client format: deinterleaved float32 at the source rate — AVAudioEngine's native format.
+        // Client format: deinterleaved float32 at the source rate, AVAudioEngine's native format.
         var clientASBD = AudioStreamBasicDescription(
             mSampleRate: sampleRate,
             mFormatID: kAudioFormatLinearPCM,

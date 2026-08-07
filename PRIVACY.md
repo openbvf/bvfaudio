@@ -18,7 +18,7 @@ The keys live on macOS. The public key gets synced to iCloud Drive if you enable
 
 BvfAudio never makes a network call. It only reads and writes files on the local device, whether capturing or consuming. If you opt in, cross-device sync (recording on iOS, or using iCloud Write-Only mode on macOS) encrypts audio files to a local folder which iCloud Drive syncs between devices. iCloud is doing the transport, not BvfAudio. Your passphrase never leaves your device, and the unlocked private key exists only in memory. Neither the maintainers of BvfAudio nor Apple can hear your recordings.
 
-Playback decrypts and decodes recordings entirely in memory; no plaintext audio file is written to disk. Transcription also runs entirely on-device through Apple's Speech framework: the decoded audio is handed to the on-device recognizer from memory and never leaves the device. (It is handed to that Apple recognizer to do the work — so this is on-device confinement, not a claim that no component ever receives the audio.)
+Playback decrypts and decodes recordings entirely in memory; no plaintext audio file is written to disk. Transcription runs on-device through Apple's Speech framework: the decoded audio is handed to the recognizer from memory and never leaves the device.
 
 For the cryptographic details, see [BvfKit's SECURITY.md](https://github.com/openbvf/BvfKit/blob/main/SECURITY.md) and the [bvf file format spec](https://github.com/openbvf/bvf/blob/main/SPEC.md).
 
