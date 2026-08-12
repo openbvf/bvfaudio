@@ -200,6 +200,14 @@ class AudioViewModel: BrowseViewModelBase {
             )
         }
 
+        guard #available(macOS 26.0, *) else {
+            throw NSError(
+                domain: "io.bvf.baudio.transcription",
+                code: 2,
+                userInfo: [NSLocalizedDescriptionKey: "Transcription requires macOS 26 or newer"]
+            )
+        }
+
         let audioData = try await session.decrypt(contentsOf: audioURL).data
 
         let transcriptionService = TranscriptionService()

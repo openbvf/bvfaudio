@@ -5,6 +5,7 @@ import AudioToolbox
 // `InMemoryAudioReader` and its Core Audio callbacks live in InMemoryAudioReader.swift,
 // shared with playback.
 
+@available(macOS 26.0, *)
 final class TranscriptionService {
     func transcribe(audioData: Data) async throws -> String {
         let locale = Locale(identifier: "en-US")

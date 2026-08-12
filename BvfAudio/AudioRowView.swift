@@ -53,10 +53,12 @@ struct AudioRowView: View {
                 showTagPopover = true
             }
             .disabled(!viewModel.metadataLoaded)
-            Button("Transcribe to Bedit") {
-                onTranscribe()
+            if #available(macOS 26.0, *) {
+                Button("Transcribe to Bedit") {
+                    onTranscribe()
+                }
+                .disabled(viewModel.isTranscribing)
             }
-            .disabled(viewModel.isTranscribing)
             Button("Delete") {
                 viewModel.showDeleteConfirmation = true
             }
