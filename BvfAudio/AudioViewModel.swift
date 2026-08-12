@@ -14,7 +14,7 @@ class AudioViewModel: BrowseViewModelBase {
     var duration: TimeInterval = 0
     var wasTruncated = false
     var isTranscribing = false
-    @ObservationIgnored private var audioPlayer: AVAudioPlayer?
+    @ObservationIgnored private var player: InMemoryAudioPlayer?
     @ObservationIgnored private var progressTimer: Timer?
     @ObservationIgnored private var loadTask: Task<Void, Never>?
     @ObservationIgnored private var transcriptionTask: Task<Void, Never>?
@@ -63,14 +63,24 @@ class AudioViewModel: BrowseViewModelBase {
 
                 guard !Task.isCancelled else { return }
 
-                audioPlayer = try AVAudioPlayer(data: result.data)
-                audioPlayer?.delegate = self
-                audioPlayer?.play()
+                let newPlayer = try await InMemoryAudioPlayer.make(data: result.data)
 
+                guard !Task.isCancelled else { return }
+
+                newPlayer.onPlaybackEnded = { [weak self] in
+                    guard let self else { return }
+                    self.stopProgressTimer()
+                    self.isPlaying = false
+                    self.currentTime = self.duration
+                }
+
+                player = newPlayer
+                duration = newPlayer.duration
+                wasTruncated = result.wasTruncated
+
+                newPlayer.play()
                 currentlyPlayingDate = date
                 isPlaying = true
-                duration = audioPlayer?.duration ?? 0
-                wasTruncated = result.wasTruncated
                 startProgressTimer()
 
                 if result.wasTruncated {
@@ -84,16 +94,17 @@ class AudioViewModel: BrowseViewModelBase {
     }
 
     func pause() {
+        guard let player else { return }
         if isPlaying {
-            audioPlayer?.pause()
+            player.pause()
             stopProgressTimer()
             isPlaying = false
         } else {
-            if let player = audioPlayer, player.currentTime >= player.duration {
-                player.currentTime = 0
+            if currentTime >= duration, duration > 0 {
+                player.seek(to: 0)
                 currentTime = 0
             }
-            audioPlayer?.play()
+            player.play()
             startProgressTimer()
             isPlaying = true
         }
@@ -103,8 +114,8 @@ class AudioViewModel: BrowseViewModelBase {
         loadTask?.cancel()
         loadTask = nil
         stopProgressTimer()
-        audioPlayer?.stop()
-        audioPlayer = nil
+        player?.stop()
+        player = nil
         isPlaying = false
         currentlyPlayingDate = nil
         currentTime = 0
@@ -113,7 +124,7 @@ class AudioViewModel: BrowseViewModelBase {
     }
 
     func seek(to time: TimeInterval) {
-        audioPlayer?.currentTime = time
+        player?.seek(to: time)
         currentTime = time
     }
 
@@ -121,7 +132,7 @@ class AudioViewModel: BrowseViewModelBase {
         progressTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self else { return }
             MainActor.assumeIsolated {
-                guard let player = self.audioPlayer else { return }
+                guard let player = self.player else { return }
                 self.currentTime = player.currentTime
                 // Keep idle timer alive during hands-free playback.
                 self.idleTimer.userDidInteract()
@@ -213,26 +224,5 @@ class AudioViewModel: BrowseViewModelBase {
         )
 
         addTag("transcribed", to: [date])
-    }
-}
-
-extension AudioViewModel: AVAudioPlayerDelegate {
-    nonisolated func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        Task { @MainActor in
-            stopProgressTimer()
-            isPlaying = false
-            currentTime = duration
-            audioPlayer?.prepareToPlay()
-        }
-    }
-
-    nonisolated func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
-        Task { @MainActor in
-            stopProgressTimer()
-            stop()
-            if let error = error {
-                responseMessage = ResponseMessage("Playback error: \(error.localizedDescription)", type: .error)
-            }
-        }
     }
 }
