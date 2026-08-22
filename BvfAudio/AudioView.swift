@@ -91,19 +91,21 @@ struct AudioView: View {
                 )
                 .toolbar {
                     ToolbarItem {
-                        if viewModel.isTranscribing {
-                            Button(action: { viewModel.cancelTranscription() }) {
-                                Label("Cancel Transcription", systemImage: "xmark.circle.fill")
+                        if #available(macOS 26.0, *) {
+                            if viewModel.isTranscribing {
+                                Button(action: { viewModel.cancelTranscription() }) {
+                                    Label("Cancel Transcription", systemImage: "xmark.circle.fill")
+                                }
+                                .help("Cancel transcription")
+                            } else {
+                                Button(action: {
+                                    viewModel.startTranscription(dates: Array(viewModel.selectedDates))
+                                }) {
+                                    Label("Transcribe to Bedit", systemImage: "text.bubble")
+                                }
+                                .disabled(viewModel.selectedDates.isEmpty)
+                                .help("Transcribe to Bedit")
                             }
-                            .help("Cancel transcription")
-                        } else {
-                            Button(action: {
-                                viewModel.startTranscription(dates: Array(viewModel.selectedDates))
-                            }) {
-                                Label("Transcribe to Bedit", systemImage: "text.bubble")
-                            }
-                            .disabled(viewModel.selectedDates.isEmpty)
-                            .help("Transcribe to Bedit")
                         }
                     }
                 }
