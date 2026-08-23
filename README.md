@@ -23,7 +23,7 @@ Screenshots are on the [App Store listing](https://apps.apple.com/us/app/bvfaudi
 
 <a href="https://apps.apple.com/us/app/bvfaudio/id6758461472?itsct=apps_box_badge&amp;itscg=30200"><img alt="Download on the App Store" src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?releaseDate=1783468800" height="50"></a>
 
-- **macOS**: Requires macOS 26 or later. Or [build from source](BUILDING.md).
+- **macOS**: Requires macOS 15 or later; on-device transcription requires macOS 26. Or [build from source](BUILDING.md).
 - **iOS**: Requires iOS 18 or later.
 
 ## First run
