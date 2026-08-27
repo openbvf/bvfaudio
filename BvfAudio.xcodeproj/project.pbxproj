@@ -13,13 +13,40 @@
 		CDAA00032F2A000000000003 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = CDAA00012F2A000000000001 /* PrivacyInfo.xcprivacy */; };
 		CDD79A322FF2E6A100BBDCA3 /* BvfAppKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDD79A312FF2E6A100BBDCA3 /* BvfAppKit */; };
 		CDD79A342FF2E6A100BBDCA3 /* BvfAppKitDecrypt in Frameworks */ = {isa = PBXBuildFile; productRef = CDD79A332FF2E6A100BBDCA3 /* BvfAppKitDecrypt */; };
+		CDWA000C2FF2E6A10000000C /* BvfKit in Frameworks */ = {isa = PBXBuildFile; productRef = CDWA000D2FF2E6A10000000D /* BvfKit */; };
+		CDWA000F2FF2E6A10000000F /* BvfAudio-watchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = CDWA00032FF2E6A100000003 /* BvfAudio-watchOS.app */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CDWA00102FF2E6A100000010 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDA315642F102298007AB568 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDWA00002FF2E6A100000000;
+			remoteInfo = "BvfAudio-watchOS";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CDWA00112FF2E6A100000011 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				CDWA000F2FF2E6A10000000F /* BvfAudio-watchOS.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CD051DAF2F1D47F500B56645 /* SecureAudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureAudioRecorder.swift; sourceTree = "<group>"; };
 		CD0FB7F72F11F104008C29D9 /* BvfAudio-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BvfAudio-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDA3156C2F102298007AB568 /* BvfAudio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BvfAudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDAA00012F2A000000000001 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		CDWA00032FF2E6A100000003 /* BvfAudio-watchOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BvfAudio-watchOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -29,6 +56,13 @@
 				Info.plist,
 			);
 			target = CD0FB7F62F11F104008C29D9 /* BvfAudio-iOS */;
+		};
+		CDWA00042FF2E6A100000004 /* Exceptions for "BvfAudio-watchOS" folder in "BvfAudio-watchOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CDWA00002FF2E6A100000000 /* BvfAudio-watchOS */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -44,6 +78,14 @@
 		CDA3156E2F102298007AB568 /* BvfAudio */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = BvfAudio;
+			sourceTree = "<group>";
+		};
+		CDWA00052FF2E6A100000005 /* BvfAudio-watchOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CDWA00042FF2E6A100000004 /* Exceptions for "BvfAudio-watchOS" folder in "BvfAudio-watchOS" target */,
+			);
+			path = "BvfAudio-watchOS";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -65,6 +107,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDWA00062FF2E6A100000006 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDWA000C2FF2E6A10000000C /* BvfKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -82,6 +132,7 @@
 			children = (
 				CDA3156E2F102298007AB568 /* BvfAudio */,
 				CD0FB7F82F11F104008C29D9 /* BvfAudio-iOS */,
+				CDWA00052FF2E6A100000005 /* BvfAudio-watchOS */,
 				CDE5BC852F1022EC0067FABB /* Frameworks */,
 				CDA3156D2F102298007AB568 /* Products */,
 				CD051DB02F1D47F500B56645 /* Shared */,
@@ -93,6 +144,7 @@
 			children = (
 				CDA3156C2F102298007AB568 /* BvfAudio.app */,
 				CD0FB7F72F11F104008C29D9 /* BvfAudio-iOS.app */,
+				CDWA00032FF2E6A100000003 /* BvfAudio-watchOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -114,10 +166,12 @@
 				CD0FB7F32F11F104008C29D9 /* Sources */,
 				CD0FB7F42F11F104008C29D9 /* Frameworks */,
 				CD0FB7F52F11F104008C29D9 /* Resources */,
+				CDWA00112FF2E6A100000011 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CDWA00122FF2E6A100000012 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				CD0FB7F82F11F104008C29D9 /* BvfAudio-iOS */,
@@ -153,6 +207,29 @@
 			productReference = CDA3156C2F102298007AB568 /* BvfAudio.app */;
 			productType = "com.apple.product-type.application";
 		};
+		CDWA00002FF2E6A100000000 /* BvfAudio-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDWA00092FF2E6A100000009 /* Build configuration list for PBXNativeTarget "BvfAudio-watchOS" */;
+			buildPhases = (
+				CDWA00082FF2E6A100000008 /* Sources */,
+				CDWA00062FF2E6A100000006 /* Frameworks */,
+				CDWA00072FF2E6A100000007 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CDWA00052FF2E6A100000005 /* BvfAudio-watchOS */,
+			);
+			name = "BvfAudio-watchOS";
+			packageProductDependencies = (
+				CDWA000D2FF2E6A10000000D /* BvfKit */,
+			);
+			productName = "BvfAudio-watchOS";
+			productReference = CDWA00032FF2E6A100000003 /* BvfAudio-watchOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -169,6 +246,9 @@
 					CDA3156B2F102298007AB568 = {
 						CreatedOnToolsVersion = 26.2;
 					};
+					CDWA00002FF2E6A100000000 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = CDA315672F102298007AB568 /* Build configuration list for PBXProject "BvfAudio" */;
@@ -182,6 +262,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				CDD79A302FF2E6A100BBDCA3 /* XCRemoteSwiftPackageReference "BvfAppKit" */,
+				CDWA000E2FF2E6A10000000E /* XCRemoteSwiftPackageReference "BvfKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CDA3156D2F102298007AB568 /* Products */;
@@ -190,6 +271,7 @@
 			targets = (
 				CDA3156B2F102298007AB568 /* BvfAudio */,
 				CD0FB7F62F11F104008C29D9 /* BvfAudio-iOS */,
+				CDWA00002FF2E6A100000000 /* BvfAudio-watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -208,6 +290,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CDAA00022F2A000000000002 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CDWA00072FF2E6A100000007 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,7 +319,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDWA00082FF2E6A100000008 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CDWA00122FF2E6A100000012 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDWA00002FF2E6A100000000 /* BvfAudio-watchOS */;
+			targetProxy = CDWA00102FF2E6A100000010 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		CD0FB7FF2F11F105008C29D9 /* Debug */ = {
@@ -239,7 +343,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "BvfAudio-iOS/BvfAudio-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BvfAudio-iOS/Info.plist";
@@ -256,7 +360,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -277,7 +381,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "BvfAudio-iOS/BvfAudio-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				ENABLE_PREVIEWS = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BvfAudio-iOS/Info.plist";
@@ -294,7 +398,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0;
+				MARKETING_VERSION = 3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -441,7 +545,7 @@
 				CODE_SIGN_ENTITLEMENTS = BvfAudio/BvfAudio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -456,7 +560,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 3.2.1;
+				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio.debug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -477,7 +581,7 @@
 				CODE_SIGN_ENTITLEMENTS = BvfAudio/BvfAudio.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -492,7 +596,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 3.2.1;
+				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -502,6 +606,76 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		CDWA000A2FF2E6A10000000A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BvfAudio-watchOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = BvfAudioDB;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Encrypt audio directly to iCloud file";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = io.bvf.baudio.debug;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio.debug.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		CDWA000B2FF2E6A10000000B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 10;
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BvfAudio-watchOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = BvfAudio;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Encrypt audio directly to iCloud file";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = io.bvf.baudio;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.1;
+				PRODUCT_BUNDLE_IDENTIFIER = io.bvf.baudio.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -535,6 +709,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		CDWA00092FF2E6A100000009 /* Build configuration list for PBXNativeTarget "BvfAudio-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDWA000A2FF2E6A10000000A /* Debug */,
+				CDWA000B2FF2E6A10000000B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -544,6 +727,14 @@
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 0.2.0;
+			};
+		};
+		CDWA000E2FF2E6A10000000E /* XCRemoteSwiftPackageReference "BvfKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/openbvf/BvfKit.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.1.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -558,6 +749,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CDD79A302FF2E6A100BBDCA3 /* XCRemoteSwiftPackageReference "BvfAppKit" */;
 			productName = BvfAppKitDecrypt;
+		};
+		CDWA000D2FF2E6A10000000D /* BvfKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CDWA000E2FF2E6A10000000E /* XCRemoteSwiftPackageReference "BvfKit" */;
+			productName = BvfKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -2,16 +2,16 @@
 
 <img src="bvfaudio-macos.svg" alt="" width="128" align="right">
 
-BvfAudio is a private app to record and play back audio on macOS. You can also record from iPhone or iPad. Audio is encrypted as it's captured and decrypted only inside the app where you play it back, so there's never a readable copy on disk for Spotlight, backups, other software, or people using your computer to find.
+BvfAudio is a private app to record and play back audio on macOS. You can also record from iPhone, iPad, or Apple Watch. Audio is encrypted as it's captured and decrypted only inside the app where you play it back, so there's never a readable copy on disk for Spotlight, backups, other software, or people using your computer to find.
 
-iOS is record-only by design. An iPhone or iPad can record new audio but can never play it back, because the private key isn't on iOS at all. If your phone is taken, nothing on it is playable.
+iOS is record-only by design. An iPhone, iPad, or Apple Watch can record new audio but can never play it back, because the private key isn't on those devices at all. If your phone is taken, nothing on it is playable.
 
 Screenshots are on the [App Store listing](https://apps.apple.com/us/app/bvfaudio/id6758461472).
 
 ## Features
 
 - Record and play back encrypted audio on macOS.
-- Optionally enable iCloud Drive to record from iPhone or iPad; only your Mac can play back.
+- Optionally enable iCloud Drive to record from iPhone, iPad, or Apple Watch; only your Mac can play back.
 - Records straight to an encrypted file. Plaintext audio never touches disk.
 - On-device transcription (no cloud); transcribed text can be saved encrypted to your [Bedit](https://github.com/openbvf/bedit) journal if you have one.
 - Browse by date and filter by tag.
@@ -25,6 +25,7 @@ Screenshots are on the [App Store listing](https://apps.apple.com/us/app/bvfaudi
 
 - **macOS**: Requires macOS 15 or later; on-device transcription requires macOS 26. Or [build from source](BUILDING.md).
 - **iOS**: Requires iOS 18 or later.
+- **watchOS**: Requires watchOS 10 or later.
 
 ## First run
 
@@ -40,9 +41,9 @@ For the full threat model and cryptographic details, see [PRIVACY.md](PRIVACY.md
 
 **BvfAudio protects you from:**
 
-- Anyone who steals your Mac, iPhone, or iPad
+- Anyone who steals your Mac, iPhone, iPad, or Apple Watch
 - Someone logged into your Mac as you; passphrase on launch, auto-lock on idle, and can be set to lock the moment focus leaves the app
-- Anyone using your iPhone or iPad, which can't play your recordings in the first place
+- Anyone using your iPhone, iPad, or Apple Watch, which can't play your recordings in the first place
 - Anyone who copies your encrypted recordings; they might see encrypted blobs, never the audio
 - AI agents, indexers, and other software that read files on your Mac; same answer
 - Apple, or anyone who breaches iCloud; same answer
@@ -53,7 +54,7 @@ For the full threat model and cryptographic details, see [PRIVACY.md](PRIVACY.md
 - A keylogger or a tampered BvfAudio binary. If your Mac is compromised at runtime, all bets are off.
 - A forgotten passphrase. There is no recovery, and the recordings are gone.
 - A memory attack on your running, unlocked Mac (see [SECURITY.md](SECURITY.md) for the nuances).
-- Fake recordings from someone using your device. Anyone logged into your Mac, iPhone, or iPad can add a recording.
+- Fake recordings from someone using your device. Anyone logged into your Mac, iPhone, iPad, or Apple Watch can add a recording.
 - Yourself, via advanced settings. Moving the private key off your Mac (to iCloud, a shared folder, a backup service that holds its own decryption key) puts it within reach of whoever can read that location.
 
 ## Backing up

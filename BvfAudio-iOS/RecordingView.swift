@@ -1,6 +1,7 @@
 import SwiftUI
 import AVFoundation
 import Combine
+import UserNotifications
 import BvfAppKit
 
 struct RecordingView: View {
@@ -66,6 +67,13 @@ struct RecordingView: View {
         }
         .onAppear {
             recorder.configure(cloudManager: cloudManager)
+
+            // Request early — before any interruption could occur — so permission
+            // already exists by the time an interruption needs to post its
+            // notification. Fire-and-forget; the interruption path doesn't gate on
+            // the result, since UNUserNotificationCenter silently no-ops when
+            // authorization hasn't been granted.
+            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
         }
         .onChange(of: recorder.lastSaveDate) { _, date in
             lastSaveDate = date
@@ -109,7 +117,15 @@ class RecordingModel: ObservableObject {
     private var cloudManager: iCloudManager?
     private var durationCancellable: AnyCancellable?
     nonisolated(unsafe) private var interruptionObserver: NSObjectProtocol?
+    nonisolated(unsafe) private var routeChangeObserver: NSObjectProtocol?
     nonisolated(unsafe) private var terminateObserver: NSObjectProtocol?
+
+    /// Input port UIDs captured when a recording starts. The route-change observer
+    /// compares the live input against this baseline, not against the notification's
+    /// previous route — otherwise the route change emitted when the `.record` session
+    /// first activates (previous route -> record input) reads as an input change and
+    /// auto-stops the recording the instant it starts.
+    nonisolated(unsafe) private var recordingInputUIDs: Set<String> = []
 
     @Published var isRecording = false
     @Published var isSaving = false
@@ -124,6 +140,7 @@ class RecordingModel: ObservableObject {
     func configure(cloudManager: iCloudManager) {
         self.cloudManager = cloudManager
         setupInterruptionObserver()
+        setupRouteChangeObserver()
         setupTerminateObserver()
     }
 
@@ -156,6 +173,10 @@ class RecordingModel: ObservableObject {
             let recorder = SecureAudioRecorder()
             try recorder.start(encryptionContext: context)
             secureRecorder = recorder
+
+            // Baseline the input the recording started on, now that the session is
+            // active. The route-change observer compares against this.
+            recordingInputUIDs = Set(AVAudioSession.sharedInstance().currentRoute.inputs.map(\.uid))
 
             isRecording = true
             recordingDuration = 0
@@ -239,15 +260,70 @@ class RecordingModel: ObservableObject {
             Task { @MainActor in
                 if type == .began {
                     // Interruption began (phone call, Siri, etc.) - save recording cleanly
+                    guard self?.isRecording == true else { return }
                     self?.stopRecording()
+                    // Tell the user why recording stopped even while the app is
+                    // backgrounded — a delivered local notification is the only
+                    // reliable signal then. Foregrounded, the system suppresses it
+                    // (no notification-center delegate is registered), matching the
+                    // watch app.
+                    RecordingModel.postInterruptionNotification()
                 }
                 // On .ended, user can manually start a new recording
             }
         }
     }
 
+    /// Observes `AVAudioSession.routeChangeNotification` for the lifetime of the
+    /// model (registered in `configure`, removed in `deinit`). A mid-recording input
+    /// change (e.g. AirPods connecting) is detected by comparing the live input UIDs
+    /// against `recordingInputUIDs` (the input the recording started on) rather than
+    /// trusting the reason code — this is reason-agnostic and does not false-trigger
+    /// on the route change emitted when the `.record` session first activates,
+    /// because by then the live input already equals the baseline. On a real input
+    /// change, stop and finalize cleanly — mirroring the interruption path — and
+    /// notify the user the same way.
+    private func setupRouteChangeObserver() {
+        routeChangeObserver = NotificationCenter.default.addObserver(
+            forName: AVAudioSession.routeChangeNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                guard let self, self.isRecording else { return }
+                let currentInputs = Set(AVAudioSession.sharedInstance().currentRoute.inputs.map(\.uid))
+                guard currentInputs != self.recordingInputUIDs else { return }
+                self.stopRecording()
+                RecordingModel.postInterruptionNotification()
+            }
+        }
+    }
+
+    /// Posts an immediate local notification so the user finds out a recording was
+    /// auto-stopped by an interruption while the app is backgrounded. Mirrors the
+    /// watch app; `UNUserNotificationCenter.add` is thread-safe and no delegate is
+    /// registered, so the default banner-when-backgrounded / suppressed-when-
+    /// foregrounded behavior is exactly what's wanted.
+    private static func postInterruptionNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "BvfAudio"
+        content.body = "Recording interrupted"
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: nil
+        )
+
+        UNUserNotificationCenter.current().add(request)
+    }
+
     deinit {
         if let observer = interruptionObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+        if let observer = routeChangeObserver {
             NotificationCenter.default.removeObserver(observer)
         }
         if let observer = terminateObserver {
