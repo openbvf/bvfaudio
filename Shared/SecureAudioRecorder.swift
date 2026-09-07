@@ -158,22 +158,40 @@ final class SecureAudioRecorder: ObservableObject, @unchecked Sendable {
         durationTimer?.invalidate()
         durationTimer = nil
 
-        // Drain pending tap-callback work before finalizing the encryption stream
-        processingQueue.sync { }
-
-        try encryptionContext?.finish()
-        encryptionContext = nil
-
-        Task {
-            await MainActor.run {
-                self.isRecording = false
-                self.duration = 0
+        // Teardown and the UI reset MUST run even if the final commit throws (e.g. disk
+        // full) — otherwise the engine keeps running, the mic stays hot, and the UI
+        // wedges on "recording". Mirrors SecureVideoRecorder.stop()'s defer-based cleanup
+        // and the watch recorder's non-throwing finalize. The teardown error is swallowed
+        // (as the sibling recorders do); the commit error below is the one that matters
+        // and is rethrown.
+        defer {
+            Task {
+                await MainActor.run {
+                    self.isRecording = false
+                    self.duration = 0
+                }
+            }
+            if !isExternallyPrepared {
+                try? tearDownEngine()
             }
         }
 
-        if !isExternallyPrepared {
-            try tearDownEngine()
+        // Finalize the encryption stream ON processingQueue, after the last in-flight
+        // processAudioBuffer write (FIFO) — a tap callback that slips past `shouldWrite`
+        // and enqueues after this point sees `encryptionContext == nil` and no-ops,
+        // instead of racing `write()` against `finish()` on the same unsynchronized
+        // secretstream state. The finish-on-queue is itself the drain, so no separate
+        // empty `sync {}` is needed. Mirrors SecureVideoRecorder.finishEncryptionSync().
+        var finishError: Error?
+        processingQueue.sync {
+            do {
+                try encryptionContext?.finish()
+            } catch {
+                finishError = error
+            }
+            encryptionContext = nil
         }
+        if let finishError { throw finishError }
     }
 
     nonisolated private func buildEngine() throws {

@@ -57,6 +57,9 @@ struct ContentView: View {
         if FileManager.default.fileExists(atPath: publicKeyURL.path) {
             isReady = true
             errorMessage = nil
+            // Phase 3: keep the watch app's recipient pubkey current. Safe to call
+            // on every checkSetup() — it no-ops if the key hasn't changed.
+            PhoneConnectivityManager.shared.publishRecipientPublicKey(cloudManager: cloudManager)
         } else {
             errorMessage = "iCloud must be set up in this app on a computer first."
         }
